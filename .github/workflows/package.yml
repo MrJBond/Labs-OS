@@ -3,6 +3,7 @@ name: Build RPM and DEB
 on:
   push:
     branches:
+      - main
       - master
 
 jobs:
