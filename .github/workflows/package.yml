@@ -23,10 +23,17 @@ jobs:
       run: |
         mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 
+    - name: Set executable permission for count_files.sh
+      run: chmod +x count_files.sh
+
     - name: Copy necessary files
       run: |
-        cp count_files.sh ~/rpmbuild/SOURCES/ 
+        cp count_files.sh ~/rpmbuild/SOURCES/
         cp file-counter.spec ~/rpmbuild/SPECS/
+
+    - name: Verify files in SOURCES directory
+      run: |
+        ls -l ~/rpmbuild/SOURCES/
 
     - name: Build RPM
       run: |
@@ -45,4 +52,5 @@ jobs:
         echo "Architecture: all" >> file-counter-1.0/DEBIAN/control
         echo "Maintainer: Serhii" >> file-counter-1.0/DEBIAN/control
         echo "Description: A script to count files in /etc excluding directories and symlinks" >> file-counter-1.0/DEBIAN/control
-        dpkg-deb --build file-counter-1.0 
+        dpkg-deb --build file-counter-1.0
+ 
