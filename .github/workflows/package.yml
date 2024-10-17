@@ -26,7 +26,7 @@ jobs:
     - name: Copy necessary files
       run: |
         cp count_files.sh ~/rpmbuild/SOURCES/
-        cp /home/james/rpmbuild/SPECS/file-counter.spec ~/rpmbuild/SPECS/
+        cp file-counter.spec ~/rpmbuild/SPECS/
 
     - name: Build RPM
       run: |
