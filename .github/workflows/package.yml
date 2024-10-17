@@ -19,11 +19,18 @@ jobs:
         sudo apt-get update
         sudo apt-get install rpm dpkg-dev build-essential
 
-    - name: Build RPM
+    - name: Prepare RPM build directories
       run: |
         mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+
+    - name: Copy necessary files
+      run: |
         cp count_files.sh ~/rpmbuild/SOURCES/
-        rpmbuild -ba --define "_topdir ~/rpmbuild" file-counter.spec
+        cp /home/james/rpmbuild/SPECS/file-counter.spec ~/rpmbuild/SPECS/
+
+    - name: Build RPM
+      run: |
+        rpmbuild -ba --define "_topdir ~/rpmbuild" ~/rpmbuild/SPECS/file-counter.spec
 
     - name: Build DEB
       run: |
@@ -36,7 +43,6 @@ jobs:
         echo "Section: base" >> file-counter-1.0/DEBIAN/control
         echo "Priority: optional" >> file-counter-1.0/DEBIAN/control
         echo "Architecture: all" >> file-counter-1.0/DEBIAN/control
-        echo "Maintainer: Serhii" > file-counter-1.0/DEBIAN/control
+        echo "Maintainer: Serhii" >> file-counter-1.0/DEBIAN/control
         echo "Description: A script to count files in /etc excluding directories and symlinks" >> file-counter-1.0/DEBIAN/control
         dpkg-deb --build file-counter-1.0
-
