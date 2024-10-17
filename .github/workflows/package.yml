@@ -45,4 +45,4 @@ jobs:
         echo "Architecture: all" >> file-counter-1.0/DEBIAN/control
         echo "Maintainer: Serhii" >> file-counter-1.0/DEBIAN/control
         echo "Description: A script to count files in /etc excluding directories and symlinks" >> file-counter-1.0/DEBIAN/control
-        dpkg-deb --build file-counter-1.0
+        dpkg-deb --build file-counter-1.0 
