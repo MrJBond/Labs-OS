@@ -23,3 +23,4 @@ file_count=$(find /etc -type f ! -type l | wc -l)
 
 # Output the result
 echo "Total number of files in /etc (excluding directories and symlinks): $file_count"
+ 
