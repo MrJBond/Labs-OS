@@ -15,6 +15,7 @@ This package provides a script that counts files in the /etc directory, excludin
 %build
 # No build required
 
+
 %install
 install -d %{buildroot}/usr/local/bin
 install -m 0755 %{SOURCE0} %{buildroot}/usr/local/bin/count_files.sh

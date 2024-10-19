@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Check if the script is being run as root
+# Check if the script is being run as root.
 if [[ "$EUID" -ne 0 ]]; then
   echo "This script requires sudo privileges. Please run with 'sudo'."
   exit 1
 fi
 
 
-# Check if the /etc directory exists
+#Check if the /etc directory exists
 if [ ! -d "/etc" ]; then
   echo "/etc directory not found!"
   exit 1
@@ -23,4 +23,5 @@ file_count=$(find /etc -type f ! -type l | wc -l)
 
 # Output the result
 echo "Total number of files in /etc (excluding directories and symlinks): $file_count"
+
  
