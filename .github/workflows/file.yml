@@ -45,7 +45,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
        name: count-files-rpm
-       path: ~/rpmbuild/RPMS/x86_64/count-files-1.0-1.x86_64.rpm 
+       path: /home/runner/rpmbuild/RPMS/x86_64/count-files-1.0-1.x86_64.rpm
 
     - name: Upload DEB as artifact
       uses: actions/upload-artifact@v3
