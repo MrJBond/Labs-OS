@@ -1,5 +1,5 @@
 Name:           count_files
-Version:        1.0
+Version:        1.0.0
 Release:        1%{?dist}
 Summary:        A script to count files in /etc
 
