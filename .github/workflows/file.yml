@@ -1,0 +1,54 @@
+name: Build RPM and DEB
+
+on:
+  push:
+      tags:
+      - "*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies for RPM and DEB
+      run: |
+        sudo apt-get update
+        sudo apt-get install rpm dpkg-dev build-essential
+
+    - name: Build RPM
+      run: |
+        mkdir -p /home/runner/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+        cp count_files.sh /home/runner/rpmbuild/SOURCES/
+        rpmbuild -ba --define "_topdir /home/runner/rpmbuild" count_files.spec
+
+
+    - name: Build DEB
+      run: |
+        mkdir -p count_files-1.0/usr/local/bin
+        cp count_files.sh count_files-1.0/usr/local/bin/
+        chmod 755 count_files-1.0/usr/local/bin/count_files.sh
+        mkdir -p count_files-1.0/DEBIAN
+        echo "Package: count_files" > count_files-1.0/DEBIAN/control
+        echo "Version: 1.0" >> count_files-1.0/DEBIAN/control
+        echo "Section: base" >> count_files-1.0/DEBIAN/control
+        echo "Priority: optional" >> count_files-1.0/DEBIAN/control
+        echo "Architecture: all" >> count_files-1.0/DEBIAN/control
+        echo "Maintainer: Serhii" >> count_files-1.0/DEBIAN/control
+        echo "Description: A script to count files in /etc excluding directories and symlinks" >> count_files-1.0/DEBIAN/control
+        dpkg-deb --build count_files-1.0
+
+        
+    - name: Upload RPM as artifact
+      uses: actions/upload-artifact@v3
+      with:
+       name: count_files-rpm
+       path: ~/rpmbuild/RPMS/x86_64/count_files-1.0-1.x86_64.rpm 
+
+    - name: Upload DEB as artifact
+      uses: actions/upload-artifact@v3
+      with:
+       name: count_files-deb
+       path: count_files-1.0.deb 
