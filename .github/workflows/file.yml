@@ -36,7 +36,7 @@ jobs:
         echo "Section: base" >> file-counter-1.0/DEBIAN/control
         echo "Priority: optional" >> file-counter-1.0/DEBIAN/control
         echo "Architecture: all" >> file-counter-1.0/DEBIAN/control
-        echo "Maintainer: Your Name <your.email@example.com>" >> file-counter-1.0/DEBIAN/control
+        echo "Maintainer: Serhii" >> file-counter-1.0/DEBIAN/control
         echo "Description: A script to count files in /etc excluding directories and symlinks" >> file-counter-1.0/DEBIAN/control
         dpkg-deb --build file-counter-1.0
 
