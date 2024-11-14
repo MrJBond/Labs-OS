@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+    environment {
+        DEB_URL = 'https://github.com/MrJBond/Labs-OS/releases/download/v10/file-counter-1.0.deb'
+        RPM_URL = 'https://github.com/MrJBond/Labs-OS/releases/download/v10/file-counter-1.0-1.x86_64.rpm'
+    }
+    stages {
+        stage('Run in Docker') {
+            steps {
+                script {
+                    docker.image('ubuntu:latest').inside('-u root') {
+                        // Install necessary tools
+                        sh '''
+                        apt-get update && apt-get install -y wget curl dpkg
+                        '''
+                        // Download Artifact
+                        sh '''
+                        curl -L -o file-counter.deb $DEB_URL || wget -O file-counter.deb $DEB_URL
+                        curl -L -o file-counter.rpm $RPM_URL || wget -O file-counter.rpm $RPM_URL
+                        '''
+                        // Install Package
+                        sh '''
+                        if [ -f /etc/debian_version ]; then
+                            dpkg -i file-counter.deb || apt-get install -f -y
+                        elif [ -f /etc/redhat-release ]; then
+                            yum localinstall -y file-counter.rpm || rpm -i file-counter.rpm
+                        fi
+                        '''
+                        // Run Script
+                        sh '/usr/local/bin/file-counter.sh' 
+                    }
+                }
+            }
+        }
+    }
+}
